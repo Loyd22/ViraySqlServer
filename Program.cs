@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using digiBookModel;
 using digiBookBusiness;
@@ -40,3 +40,5 @@ namespace Digibook
         }
     }
 }
+
+
