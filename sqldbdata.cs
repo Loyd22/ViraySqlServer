@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using digiBookModel;
@@ -7,29 +7,33 @@ namespace digiBookDataLayer
 {
     public class sqldbdata
     {
-        private static string connectionString = "Data Source=YEL\\SQLEXPRESS;Initial Catalog=Digibook;Integrated Security=True;";
+        string connectionString = "Data Source=YEL\\SQLEXPRESS;Initial Catalog=Digibook;Integrated Security=True;";
 
-        public static List<bookss> GetBooksFromDatabase()
+        public List<bookss> GetBooks()
         {
             List<bookss> books = new List<bookss>();
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
-                connection.Open();
-                string query = "SELECT Title, Author, Summary FROM Books";
+                string selectStatement = "SELECT Title, Author, Summary FROM Books";
+                SqlCommand selectCommand = new SqlCommand(selectStatement, sqlConnection);
 
-                using (SqlCommand command = new SqlCommand(query, connection))
+                sqlConnection.Open();
+
+                using (SqlDataReader reader = selectCommand.ExecuteReader())
                 {
-                    SqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
-                        bookss book = new bookss
-                        {
-                            title = reader["Title"].ToString(),
-                            author = reader["Author"].ToString(),
-                            summary = reader["Summary"].ToString()
-                        };
-                        books.Add(book);
+                        string title = reader["Title"].ToString();
+                        string author = reader["Author"].ToString();
+                        string summary = reader["Summary"].ToString();
+
+                        bookss readBook = new bookss();
+                        readBook.title = title;
+                        readBook.author = author;
+                        readBook.summary = summary;
+
+                        books.Add(readBook);
                     }
                 }
             }
@@ -38,3 +42,4 @@ namespace digiBookDataLayer
         }
     }
 }
+
