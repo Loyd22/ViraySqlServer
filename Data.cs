@@ -1,8 +1,7 @@
-﻿using digiBookModel;
 using System.Reflection;
-
 using System.Collections.Generic;
 using digiBookModel;
+using digiBookDataLayer;
 
 namespace digiBookDataLayer
 {
@@ -10,7 +9,8 @@ namespace digiBookDataLayer
     {
         public static List<bookss> book()
         {
-            return sqldbdata.GetBooksFromDatabase();
+            sqldbdata dataAccess = new sqldbdata();
+            return dataAccess.GetBooks();
         }
     }
 }
